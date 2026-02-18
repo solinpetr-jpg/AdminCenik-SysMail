@@ -3,19 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emailing Admin</title>
+  <title>Přihlášení – Cenová nabídka</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .gate {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .gate-box {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    .gate-box h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+      color: #073763;
+    }
+    .gate-box p {
+      margin: 0 0 1.5rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .gate-box input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+    .gate-box input:focus {
+      outline: none;
+      border-color: #073763;
+      box-shadow: 0 0 0 2px rgba(7,55,99,0.15);
+    }
+    .gate-box button {
+      width: 100%;
+      padding: 12px;
+      background: #073763;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .gate-box button:hover {
+      background: #062a4d;
+    }
+    .gate-box .error {
+      color: #c00;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .gate-box .error.visible {
+      display: block;
+    }
+    .gate-box .lock-icon {
+      display: block;
+      margin: 0 auto 1rem auto;
+      color: #073763;
+    }
+    .gate-box .lock-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke-width: 1.75;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header class="header">
-      <h1>Emailing Admin</h1>
-      <p class="subtitle">Lokální projekt</p>
-    </header>
-    <main class="main">
-      <p>Projekt je připraven. Můžeš začít přidávat funkce.</p>
-    </main>
+  <div class="gate">
+    <div class="gate-box">
+      <span class="lock-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </span>
+      <h1>Cenová nabídka</h1>
+      <p>Pro zobrazení zadejte heslo.</p>
+      <form id="login" action="pricing-offer-v3.html" method="get">
+        <input type="password" id="password" name="p" placeholder="Heslo" autocomplete="off" required>
+        <p class="error" id="error">Nesprávné heslo.</p>
+        <button type="submit">Přihlásit</button>
+      </form>
+    </div>
   </div>
-  <script src="app.js"></script>
+  <script>
+    (function() {
+      var EXPECTED = 'C0W30-26';
+      var STORAGE_KEY = 'admin_cenik_ok';
+
+      var form = document.getElementById('login');
+      var input = document.getElementById('password');
+      var err = document.getElementById('error');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        err.classList.remove('visible');
+        if (input.value === EXPECTED) {
+          try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (x) {}
+          window.location.href = 'pricing-offer-v3.html';
+        } else {
+          err.classList.add('visible');
+          input.focus();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
